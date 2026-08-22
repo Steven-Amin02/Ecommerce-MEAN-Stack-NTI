@@ -1,6 +1,9 @@
 .product-card {
-  background: var(--color-bg-secondary);
-  border: 1px solid var(--color-border);
+  background: var(--glass-mirror-bg, var(--color-bg-secondary));
+  backdrop-filter: var(--glass-mirror-blur);
+  -webkit-backdrop-filter: var(--glass-mirror-blur);
+  border: var(--glass-mirror-border, 1px solid var(--color-border));
+  box-shadow: var(--glass-mirror-shadow), var(--glass-mirror-highlight);
   border-radius: var(--radius-xl);
   overflow: hidden;
   cursor: pointer;
@@ -10,10 +13,35 @@
   flex-direction: column;
 }
 
+.product-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.03) 40%,
+    rgba(255, 255, 255, 0.16) 50%,
+    rgba(255, 255, 255, 0.03) 60%,
+    transparent 100%
+  );
+  pointer-events: none;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateX(-50%);
+  z-index: 3;
+}
+
+.product-card:hover::before {
+  transform: translateX(100%);
+}
+
 .product-card:hover {
   transform: translateY(-6px);
-  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(233,69,96,0.2);
-  border-color: rgba(233,69,96,0.3);
+  box-shadow: var(--shadow-lg), 0 0 25px rgba(244, 63, 94, 0.22);
+  border-color: rgba(244, 63, 94, 0.35);
 }
 
 /* ── Badge ───────────────────────────────────────────── */
@@ -22,7 +50,7 @@
   top: var(--space-3);
   left: var(--space-3);
   z-index: 2;
-  padding: 2px var(--space-3);
+  padding: 3px var(--space-3);
   border-radius: var(--radius-full);
   font-size: var(--text-xs);
   font-weight: 700;
@@ -30,8 +58,8 @@
 }
 
 .out-of-stock {
-  background: rgba(255,77,109,0.2);
-  border: 1px solid rgba(255,77,109,0.4);
+  background: rgba(239, 68, 68, 0.18);
+  border: 1px solid rgba(239, 68, 68, 0.4);
   color: var(--color-error);
 }
 
@@ -57,7 +85,7 @@
 .card-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.4);
+  background: rgba(11, 15, 25, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -70,9 +98,9 @@
 }
 
 .overlay-btn {
-  background: rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.18);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: var(--radius-full);
   width: 48px;
   height: 48px;
@@ -87,6 +115,7 @@
 .overlay-btn:hover {
   background: var(--color-accent);
   border-color: var(--color-accent);
+  box-shadow: 0 0 15px rgba(255, 51, 102, 0.4);
 }
 
 /* ── Body ────────────────────────────────────────────── */
@@ -100,10 +129,10 @@
 
 .card-category {
   font-size: var(--text-xs);
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-accent-light);
+  color: var(--color-primary);
 }
 
 .card-title {
@@ -165,7 +194,7 @@
 .price-currency {
   font-size: var(--text-sm);
   color: var(--color-accent);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .price-value {
@@ -179,7 +208,7 @@
   width: 40px;
   height: 40px;
   border-radius: var(--radius-full);
-  background: var(--color-accent);
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-dark) 100%);
   border: none;
   color: #fff;
   display: flex;
@@ -187,18 +216,21 @@
   justify-content: center;
   cursor: pointer;
   transition: all var(--transition-fast);
+  box-shadow: 0 4px 12px rgba(255, 51, 102, 0.3);
   flex-shrink: 0;
 }
 
 .btn-add-cart:hover:not(:disabled) {
-  background: var(--color-accent-dark);
   transform: scale(1.1);
+  box-shadow: 0 6px 18px rgba(255, 51, 102, 0.5);
 }
 
 .btn-add-cart:disabled {
   opacity: 0.5;
   cursor: not-allowed;
   transform: none;
+  box-shadow: none;
 }
 
 .btn-add-cart .material-icons { font-size: 1.1rem; }
+

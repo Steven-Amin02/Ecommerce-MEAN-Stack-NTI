@@ -16,12 +16,12 @@ This is the **first stable release** of ShopWave, a full-stack, enterprise-grade
 ### ✨ Features Added
 
 #### 🛒 Customer Storefront
+
 - **Product Discovery & Catalog**
   - Multi-facet filtering (search, categories, price range, stock availability)
   - Grid/List view mode switching
   - Pagination and sorting
   - Real-time debounced search
-  
 - **Product Details Page**
   - High-resolution image gallery with zoom modal
   - Color swatches and size selection
@@ -44,6 +44,7 @@ This is the **first stable release** of ShopWave, a full-stack, enterprise-grade
   - User profile management
 
 #### 🛡️ Admin Dashboard
+
 - **Dashboard Overview**
   - KPIs (revenue, orders, users, inventory)
   - Sales analytics and trends
@@ -75,6 +76,7 @@ This is the **first stable release** of ShopWave, a full-stack, enterprise-grade
   - Customer information links
 
 #### 🔐 Security & Backend
+
 - **JWT Bearer Token Authentication**
   - HTTP-only cookie storage option
   - Configurable token expiration (default 7 days)
@@ -95,6 +97,7 @@ This is the **first stable release** of ShopWave, a full-stack, enterprise-grade
   - Nodemailer support
 
 #### 🎨 Design & User Experience
+
 - **Glassmorphic Design System**
   - Modern CSS Grid & Flexbox layouts
   - Responsive design (mobile-first)
@@ -110,6 +113,7 @@ This is the **first stable release** of ShopWave, a full-stack, enterprise-grade
   - Breadcrumb navigation
 
 #### 📡 RESTful API
+
 - **Complete API Endpoints**
   - Authentication (signup, verify, login, logout)
   - Products (CRUD with filtering)
@@ -126,6 +130,7 @@ This is the **first stable release** of ShopWave, a full-stack, enterprise-grade
   - Rate limiting ready
 
 #### 🔧 Developer Experience
+
 - **Development Tools**
   - Angular CLI scaffolding
   - Nodemon for auto-reload
@@ -148,6 +153,7 @@ This is the **first stable release** of ShopWave, a full-stack, enterprise-grade
 ### 🛠️ Tech Stack
 
 #### Frontend
+
 - **Angular** 22.1.0 — Modern SPA framework
 - **TypeScript** 5.6+ — Type-safe development
 - **RxJS** 7.8+ — Reactive state management
@@ -155,6 +161,7 @@ This is the **first stable release** of ShopWave, a full-stack, enterprise-grade
 - **Angular HTTP Client** — API communication
 
 #### Backend
+
 - **Node.js** 22+ — JavaScript runtime
 - **Express** 5.2.1 — Web framework
 - **MongoDB** 6.0+ — NoSQL database
@@ -167,6 +174,7 @@ This is the **first stable release** of ShopWave, a full-stack, enterprise-grade
 - **Express-validator** — Input validation
 
 ### 📊 Performance
+
 - **Frontend**
   - 684.42 KB initial bundle (before gzip)
   - 140.34 KB estimated transfer size
@@ -180,10 +188,12 @@ This is the **first stable release** of ShopWave, a full-stack, enterprise-grade
   - Image optimization via Cloudinary CDN
 
 ### 🐛 Known Issues
+
 - Home component CSS exceeds budget by 213 bytes (cosmetic, non-critical)
 - None other reported at time of release
 
 ### 📝 Database
+
 - **User Schema** with roles (admin/user), verification tracking
 - **Product Schema** with images, pricing, stock tracking
 - **Category Schema** with auto-slug generation
@@ -191,12 +201,14 @@ This is the **first stable release** of ShopWave, a full-stack, enterprise-grade
 - **Order Schema** with status workflow and customer details
 
 ### 🚀 Deployment Ready
+
 - Configured for Vercel, Netlify, AWS, Render, and Heroku
 - Docker support ready (Dockerfile not included in this release)
 - Environment variable configuration
 - Production build optimization
 
 ### 📚 Documentation
+
 - Comprehensive README files for root, frontend, and backend
 - API endpoint documentation
 - Database schema reference
@@ -209,6 +221,7 @@ This is the **first stable release** of ShopWave, a full-stack, enterprise-grade
 ## Future Roadmap (Post v1.0.0)
 
 ### v1.1.0 (Planned)
+
 - [ ] Payment integration (Stripe/PayPal)
 - [ ] Advanced product reviews & ratings
 - [ ] Wishlist persistence
@@ -216,6 +229,7 @@ This is the **first stable release** of ShopWave, a full-stack, enterprise-grade
 - [ ] Inventory alerts & low-stock warnings
 
 ### v1.2.0 (Planned)
+
 - [ ] Product recommendations engine
 - [ ] Advanced admin analytics
 - [ ] Discount/Coupon system
@@ -223,6 +237,7 @@ This is the **first stable release** of ShopWave, a full-stack, enterprise-grade
 - [ ] Dark mode theme toggle
 
 ### v2.0.0 (Planned)
+
 - [ ] Mobile app (React Native)
 - [ ] Real-time notifications (WebSockets)
 - [ ] Seller marketplace features

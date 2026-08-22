@@ -3,28 +3,31 @@
   border: none;
   cursor: pointer;
   padding: 8px;
-  border-radius: 50%;
+  border-radius: var(--radius-full, 50%);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
-  color: var(--text-muted, #6b7280);
+  transition: all var(--transition-fast, 0.2s ease);
+  color: var(--color-text-muted, #64748b);
 
   svg {
     width: 24px;
     height: 24px;
-    transition: all 0.3s ease;
+    transition: all var(--transition-fast, 0.2s ease);
   }
 
   &:hover {
-    background-color: var(--bg-hover, rgba(0,0,0,0.05));
-    transform: scale(1.1);
+    background-color: var(--color-bg-glass-hover, rgba(255,255,255,0.08));
+    color: var(--color-accent);
+    transform: scale(1.15);
   }
 
   &.active {
-    color: var(--danger-color, #ef4444);
+    color: var(--color-accent, #ff3366);
     svg {
-      fill: var(--danger-color, #ef4444);
+      fill: var(--color-accent, #ff3366);
+      filter: drop-shadow(0 0 6px rgba(255, 51, 102, 0.4));
     }
   }
 }
+
