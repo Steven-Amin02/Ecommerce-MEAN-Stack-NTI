@@ -8,22 +8,14 @@
  * This means all service files never need to manually set the header.
  */
 import { Injectable } from '@angular/core';
-import {
-  HttpRequest,
-  HttpHandler,
-  HttpEvent,
-  HttpInterceptor,
-} from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
+import { Observable } from '../../../../node_modules/rxjs/dist/types';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   private readonly TOKEN_KEY = 'shopwave_token';
 
-  intercept(
-    req: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = localStorage.getItem(this.TOKEN_KEY);
 
     if (token) {

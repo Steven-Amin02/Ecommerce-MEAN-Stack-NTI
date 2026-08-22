@@ -75,7 +75,7 @@ export class AuthService {
           this.saveToken(res.token);
           if (res.data) this.saveUser(res.data);
         }
-      })
+      }),
     );
   }
 
@@ -86,7 +86,7 @@ export class AuthService {
           this.saveToken(res.token);
           if (res.data) this.saveUser(res.data);
         }
-      })
+      }),
     );
   }
 

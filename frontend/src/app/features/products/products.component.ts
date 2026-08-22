@@ -29,7 +29,7 @@ export class ProductsComponent implements OnInit {
     private productService: ProductService,
     private categoryService: CategoryService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -78,9 +78,7 @@ export class ProductsComponent implements OnInit {
     const q = (this.searchControl.value ?? '').toLowerCase().trim();
     if (q) {
       result = result.filter(
-        (p) =>
-          p.name.toLowerCase().includes(q) ||
-          p.description.toLowerCase().includes(q)
+        (p) => p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q),
       );
     }
 
@@ -107,10 +105,18 @@ export class ProductsComponent implements OnInit {
 
     // Sort
     switch (this.sortBy) {
-      case 'price-asc':  result.sort((a, b) => a.price - b.price); break;
-      case 'price-desc': result.sort((a, b) => b.price - a.price); break;
-      case 'name-asc':   result.sort((a, b) => a.name.localeCompare(b.name)); break;
-      case 'name-desc':  result.sort((a, b) => b.name.localeCompare(a.name)); break;
+      case 'price-asc':
+        result.sort((a, b) => a.price - b.price);
+        break;
+      case 'price-desc':
+        result.sort((a, b) => b.price - a.price);
+        break;
+      case 'name-asc':
+        result.sort((a, b) => a.name.localeCompare(b.name));
+        break;
+      case 'name-desc':
+        result.sort((a, b) => b.name.localeCompare(a.name));
+        break;
     }
 
     this.filteredProducts = result;

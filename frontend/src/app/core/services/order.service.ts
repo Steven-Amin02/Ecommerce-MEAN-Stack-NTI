@@ -3,7 +3,7 @@
  */
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable } from '../../../../node_modules/rxjs/dist/types';
 import { environment } from '../../../environments/environment';
 import { ApiResponse } from './auth.service';
 

@@ -32,7 +32,7 @@ export class UserService {
     return this.http.get<ApiResponse<User[]>>(this.API).pipe(
       tap((res) => {
         if (res.success && res.data) this._users$.next(res.data);
-      })
+      }),
     );
   }
 
@@ -46,7 +46,7 @@ export class UserService {
         if (res.success && res.data) {
           this._users$.next([...this._users$.value, res.data]);
         }
-      })
+      }),
     );
   }
 
@@ -54,11 +54,9 @@ export class UserService {
     return this.http.put<ApiResponse<User>>(`${this.API}/${uuid}`, body).pipe(
       tap((res) => {
         if (res.success && res.data) {
-          this._users$.next(
-            this._users$.value.map((u) => (u.uuid === uuid ? res.data! : u))
-          );
+          this._users$.next(this._users$.value.map((u) => (u.uuid === uuid ? res.data! : u)));
         }
-      })
+      }),
     );
   }
 
@@ -68,7 +66,7 @@ export class UserService {
         if (res.success) {
           this._users$.next(this._users$.value.filter((u) => u.uuid !== uuid));
         }
-      })
+      }),
     );
   }
 }

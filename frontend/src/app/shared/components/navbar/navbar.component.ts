@@ -1,6 +1,6 @@
 import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription } from '../../../../../node_modules/rxjs/dist/types';
 import { AuthService, User } from '../../../core/services/auth.service';
 import { CartService } from '../../../core/services/cart.service';
 
@@ -27,7 +27,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   constructor(
     private auth: AuthService,
     private cart: CartService,
-    private router: Router
+    private router: Router,
   ) {
     this.currentUser$ = this.auth.currentUser$;
     this.isLoggedIn$ = this.auth.currentUser$;

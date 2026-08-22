@@ -43,7 +43,7 @@ export class ProductService {
     return this.http.get<ApiResponse<Product[]>>(this.API).pipe(
       tap((res) => {
         if (res.success && res.data) this._products$.next(res.data);
-      })
+      }),
     );
   }
 
@@ -58,7 +58,7 @@ export class ProductService {
         if (res.success && res.data) {
           this._products$.next([res.data, ...this._products$.value]);
         }
-      })
+      }),
     );
   }
 
@@ -67,7 +67,7 @@ export class ProductService {
     return this.http.put<ApiResponse<Product[]>>(`${this.API}/${uuid}`, body).pipe(
       tap((res) => {
         if (res.success && res.data) this._products$.next(res.data);
-      })
+      }),
     );
   }
 
@@ -78,7 +78,7 @@ export class ProductService {
         if (res.success) {
           this._products$.next(this._products$.value.filter((p) => p.uuid !== uuid));
         }
-      })
+      }),
     );
   }
 

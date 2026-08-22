@@ -29,7 +29,7 @@ export class CategoryService {
     return this.http.get<ApiResponse<Category[]>>(this.API).pipe(
       tap((res) => {
         if (res.success && res.data) this._categories$.next(res.data);
-      })
+      }),
     );
   }
 
@@ -43,7 +43,7 @@ export class CategoryService {
         if (res.success && res.data) {
           this._categories$.next([...this._categories$.value, res.data]);
         }
-      })
+      }),
     );
   }
 
@@ -52,10 +52,10 @@ export class CategoryService {
       tap((res) => {
         if (res.success && res.data) {
           this._categories$.next(
-            this._categories$.value.map((c) => (c._id === id ? res.data! : c))
+            this._categories$.value.map((c) => (c._id === id ? res.data! : c)),
           );
         }
-      })
+      }),
     );
   }
 
@@ -65,7 +65,7 @@ export class CategoryService {
         if (res.success) {
           this._categories$.next(this._categories$.value.filter((c) => c._id !== id));
         }
-      })
+      }),
     );
   }
 

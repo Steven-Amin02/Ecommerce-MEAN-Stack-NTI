@@ -56,19 +56,26 @@ export class CartService {
         const cart = res.data ?? null;
         this._cart$.next(cart);
         this._updateCount(cart);
-      })
+      }),
     );
   }
 
-  addItem(productId: string, quantity = 1, color?: string, size?: string): Observable<ApiResponse<Cart>> {
-    return this.http.post<ApiResponse<Cart>>(`${this.API}/items`, { productId, quantity, color, size }).pipe(
-      tap((res) => {
-        if (res.success && res.data) {
-          this._cart$.next(res.data);
-          this._updateCount(res.data);
-        }
-      })
-    );
+  addItem(
+    productId: string,
+    quantity = 1,
+    color?: string,
+    size?: string,
+  ): Observable<ApiResponse<Cart>> {
+    return this.http
+      .post<ApiResponse<Cart>>(`${this.API}/items`, { productId, quantity, color, size })
+      .pipe(
+        tap((res) => {
+          if (res.success && res.data) {
+            this._cart$.next(res.data);
+            this._updateCount(res.data);
+          }
+        }),
+      );
   }
 
   updateItem(itemId: string, quantity: number): Observable<ApiResponse<Cart>> {
@@ -78,7 +85,7 @@ export class CartService {
           this._cart$.next(res.data);
           this._updateCount(res.data);
         }
-      })
+      }),
     );
   }
 
@@ -89,7 +96,7 @@ export class CartService {
           this._cart$.next(res.data);
           this._updateCount(res.data);
         }
-      })
+      }),
     );
   }
 
@@ -98,7 +105,7 @@ export class CartService {
       tap(() => {
         this._cart$.next(null);
         this._cartCount$.next(0);
-      })
+      }),
     );
   }
 
@@ -111,7 +118,7 @@ export class CartService {
             this._cart$.next(null);
             this._cartCount$.next(0);
           }
-        })
+        }),
       );
   }
 
