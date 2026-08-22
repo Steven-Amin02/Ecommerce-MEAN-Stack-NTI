@@ -1,0 +1,202 @@
+<div class="products-page">
+  <!-- ── Page Header ─────────────────────────────── -->
+  <div class="page-header">
+    <div class="header-badge">
+      <span class="material-icons">storefront</span>
+      <span>ShopWave Catalog</span>
+    </div>
+    <h1 class="page-title">
+      Explore Our <span class="gradient-text">Premium Catalog</span>
+    </h1>
+    <p class="page-subtitle">
+      Showing <strong>{{ filteredProducts.length }}</strong> of <strong>{{ allProducts.length }}</strong> products available
+    </p>
+  </div>
+
+  <!-- ── Control Bar: Sorting & Layout Options ───── -->
+  <div class="catalog-control-bar">
+    <!-- Active Filter Tags -->
+    <div class="active-filters-chips">
+      <span class="chip-label" *ngIf="searchControl.value || selectedCategory || minPrice || maxPrice || inStockOnly">Active Filters:</span>
+
+      <span class="filter-chip" *ngIf="searchControl.value">
+        "{{ searchControl.value }}"
+        <button (click)="searchControl.setValue('')" class="chip-remove">✕</button>
+      </span>
+
+      <span class="filter-chip" *ngIf="selectedCategory">
+        Category: {{ getCategoryName(selectedCategory) }}
+        <button (click)="onCategoryChange('')" class="chip-remove">✕</button>
+      </span>
+
+      <span class="filter-chip" *ngIf="inStockOnly">
+        In Stock Only
+        <button (click)="toggleInStockOnly()" class="chip-remove">✕</button>
+      </span>
+
+      <span class="filter-chip" *ngIf="minPrice || maxPrice">
+        ${{ minPrice || 0 }} - ${{ maxPrice || 'Any' }}
+        <button (click)="minPrice = null; maxPrice = null; applyFilters()" class="chip-remove">✕</button>
+      </span>
+
+      <button class="btn-clear-all" *ngIf="searchControl.value || selectedCategory || minPrice || maxPrice || inStockOnly" (click)="clearFilters()">
+        Reset All
+      </button>
+    </div>
+
+    <!-- Right Controls -->
+    <div class="control-actions">
+      <!-- Sort Dropdown -->
+      <div class="sort-wrapper">
+        <label class="sort-label">Sort:</label>
+        <select class="select-input" (change)="onSortChange($any($event.target).value)">
+          <option value="default">Featured</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+          <option value="name-asc">Name: A to Z</option>
+          <option value="name-desc">Name: Z to A</option>
+        </select>
+      </div>
+
+      <!-- View Mode Buttons -->
+      <div class="view-mode-toggle">
+        <button
+          class="mode-btn"
+          [class.active]="viewMode === 'grid'"
+          (click)="viewMode = 'grid'"
+          title="Grid View"
+        >
+          <span class="material-icons">grid_view</span>
+        </button>
+        <button
+          class="mode-btn"
+          [class.active]="viewMode === 'list'"
+          (click)="viewMode = 'list'"
+          title="List View"
+        >
+          <span class="material-icons">view_list</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Main Layout: Sidebar + Catalog Grid ──────── -->
+  <div class="products-layout">
+
+    <!-- Sidebar Filter Panel -->
+    <aside class="filters-sidebar">
+      <div class="filters-header">
+        <h3><span class="material-icons">tune</span> Filter Catalog</h3>
+        <button class="btn-clear" (click)="clearFilters()">Reset</button>
+      </div>
+
+      <!-- Search Filter -->
+      <div class="filter-group">
+        <label class="filter-label">Search Products</label>
+        <div class="search-wrapper">
+          <span class="material-icons search-icon">search</span>
+          <input
+            id="productSearch"
+            type="text"
+            [formControl]="searchControl"
+            placeholder="Type keywords..."
+            class="filter-input search-input"
+          />
+        </div>
+      </div>
+
+      <!-- Categories Filter -->
+      <div class="filter-group">
+        <label class="filter-label">Categories</label>
+        <div class="category-filters">
+          <button
+            class="category-btn"
+            [class.active]="selectedCategory === ''"
+            (click)="onCategoryChange('')"
+          >
+            <span>All Products</span>
+            <span class="cat-count">{{ allProducts.length }}</span>
+          </button>
+
+          <button
+            class="category-btn"
+            *ngFor="let cat of categories"
+            [class.active]="selectedCategory === cat._id || selectedCategory === cat.uuid"
+            (click)="onCategoryChange(cat._id)"
+          >
+            <span>{{ cat.name }}</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Availability Filter -->
+      <div class="filter-group">
+        <label class="filter-label">Availability</label>
+        <label class="checkbox-label" (click)="toggleInStockOnly()">
+          <input type="checkbox" [checked]="inStockOnly" readonly />
+          <span class="custom-checkbox"></span>
+          <span>In Stock Items Only</span>
+        </label>
+      </div>
+
+      <!-- Price Range Filter -->
+      <div class="filter-group">
+        <label class="filter-label">Price Range ($)</label>
+        <div class="price-range">
+          <input
+            type="number"
+            [(ngModel)]="minPrice"
+            placeholder="Min $"
+            class="filter-input price-input"
+            (change)="applyFilters()"
+          />
+          <span class="price-separator">—</span>
+          <input
+            type="number"
+            [(ngModel)]="maxPrice"
+            placeholder="Max $"
+            class="filter-input price-input"
+            (change)="applyFilters()"
+          />
+        </div>
+      </div>
+    </aside>
+
+    <!-- Catalog Main Area -->
+    <div class="products-main">
+
+      <!-- Skeleton Loading State -->
+      <div class="products-grid" [class.list-view]="viewMode === 'list'" *ngIf="isLoading">
+        <div class="skeleton-card" *ngFor="let i of [1,2,3,4,5,6,7,8]">
+          <div class="skeleton-image"></div>
+          <div class="skeleton-body">
+            <div class="skeleton-line w-30"></div>
+            <div class="skeleton-line w-80"></div>
+            <div class="skeleton-line w-60"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Products Grid / List -->
+      <div class="products-grid" [class.list-view]="viewMode === 'list'" *ngIf="!isLoading && filteredProducts.length > 0">
+        <app-product-card
+          *ngFor="let p of filteredProducts"
+          [product]="p"
+        ></app-product-card>
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-state" *ngIf="!isLoading && filteredProducts.length === 0">
+        <div class="empty-icon-circle">
+          <span class="material-icons empty-icon">search_off</span>
+        </div>
+        <h3>No matching products found</h3>
+        <p>Try adjusting your search criteria or price filters to explore items.</p>
+        <button class="btn btn-primary" style="width:auto;margin-top:1.5rem" (click)="clearFilters()">
+          Clear All Filters
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,661 @@
+/*
+ * styles.css — Global Design System for ShopWave Ecommerce
+ * Defines CSS custom properties (design tokens), reset rules, and
+ * utility classes used across the entire Angular application.
+ *
+ * Design: Dark mode premium UI with glassmorphism, deep indigo/navy palette,
+ *         coral-red accent, Inter + Outfit typography.
+ */
+
+/* ============================================================
+   1. CSS CUSTOM PROPERTIES (Design Tokens)
+   ============================================================ */
+:root,
+[data-theme='dark'] {
+  /* --- Dark Color Palette (Default) --- */
+  --color-bg-primary:     #0d0d1a;   /* Deepest background */
+  --color-bg-secondary:   #1a1a2e;   /* Card backgrounds */
+  --color-bg-tertiary:    #16213e;   /* Slightly lighter panels */
+  --color-bg-glass:       rgba(255, 255, 255, 0.04); /* Glassmorphism surface */
+  --color-bg-glass-hover: rgba(255, 255, 255, 0.07);
+
+  --color-accent:         #e94560;   /* Coral red — CTA, highlights */
+  --color-accent-light:   #ff6b84;   /* Lighter accent for gradients */
+  --color-accent-dark:    #c73652;   /* Darker accent for pressed states */
+
+  --color-navy:           #0f3460;   /* Secondary brand color */
+  --color-navy-light:     #1a4a7a;
+
+  --color-text-primary:   #f0f0f8;   /* Main body text */
+  --color-text-secondary: #a0a0b8;   /* Muted/secondary text */
+  --color-text-muted:     #6b6b88;   /* Very muted labels */
+  --color-text-inverse:   #0d0d1a;   /* Text on light bg */
+
+  --color-border:         rgba(255, 255, 255, 0.08);
+  --color-border-focus:   rgba(233, 69, 96, 0.5);
+  --color-border-input:   rgba(255, 255, 255, 0.12);
+
+  --color-success:        #00d68f;
+  --color-error:          #ff4d6d;
+  --color-warning:        #ffb347;
+
+  --body-bg-grad1:        rgba(15, 52, 96, 0.5);
+  --body-bg-grad2:        rgba(233, 69, 96, 0.12);
+
+  --navbar-bg:            rgba(13, 13, 26, 0.75);
+  --navbar-bg-scrolled:   rgba(13, 13, 26, 0.95);
+
+  --input-bg:             rgba(255, 255, 255, 0.05);
+  --input-bg-hover:       rgba(255, 255, 255, 0.07);
+  --input-bg-focus:       rgba(255, 255, 255, 0.08);
+
+  /* --- Typography --- */
+  --font-heading:  'Outfit', sans-serif;
+  --font-body:     'Inter', sans-serif;
+
+  --text-xs:   0.75rem;
+  --text-sm:   0.875rem;
+  --text-base: 1rem;
+  --text-lg:   1.125rem;
+  --text-xl:   1.25rem;
+  --text-2xl:  1.5rem;
+  --text-3xl:  1.875rem;
+  --text-4xl:  2.25rem;
+
+  /* --- Spacing Scale --- */
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-5:  1.25rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  /* --- Border Radius --- */
+  --radius-sm:  0.375rem;
+  --radius-md:  0.625rem;
+  --radius-lg:  1rem;
+  --radius-xl:  1.5rem;
+  --radius-2xl: 2rem;
+  --radius-full: 9999px;
+
+  /* --- Shadows & Glows --- */
+  --shadow-sm:     0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md:     0 4px 20px rgba(0, 0, 0, 0.4);
+  --shadow-lg:     0 8px 40px rgba(0, 0, 0, 0.5);
+  --shadow-accent: 0 0 30px rgba(233, 69, 96, 0.25);
+  --shadow-card:   0 8px 32px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255,255,255,0.06);
+
+  /* --- Transitions --- */
+  --transition-fast:   150ms ease;
+  --transition-base:   250ms ease;
+  --transition-slow:   400ms ease;
+
+  /* --- Z-index layers --- */
+  --z-base:    1;
+  --z-dropdown: 100;
+  --z-modal:   200;
+  --z-toast:   300;
+}
+
+[data-theme='light'] {
+  /* --- Light Color Palette --- */
+  --color-bg-primary:     #f4f6fb;   /* Bright clean canvas background */
+  --color-bg-secondary:   #ffffff;   /* Pure white cards and surfaces */
+  --color-bg-tertiary:    #e2e8f0;   /* Light gray/blue panels */
+  --color-bg-glass:       rgba(255, 255, 255, 0.88); /* Frosty light glass */
+  --color-bg-glass-hover: rgba(255, 255, 255, 0.98);
+
+  --color-accent:         #e94560;   /* Coral red accent */
+  --color-accent-light:   #ff4d6d;   /* Vibrant accent for text/highlights on light bg */
+  --color-accent-dark:    #c73652;
+
+  --color-navy:           #2563eb;
+  --color-navy-light:     #3b82f6;
+
+  --color-text-primary:   #0f172a;   /* Rich slate 900 primary text */
+  --color-text-secondary: #475569;   /* Slate 600 secondary text */
+  --color-text-muted:     #64748b;   /* Slate 500 muted text */
+  --color-text-inverse:   #ffffff;
+
+  --color-border:         rgba(15, 23, 42, 0.08);
+  --color-border-focus:   rgba(233, 69, 96, 0.5);
+  --color-border-input:   rgba(15, 23, 42, 0.15);
+
+  --color-success:        #10b981;
+  --color-error:          #ef4444;
+  --color-warning:        #f59e0b;
+
+  --body-bg-grad1:        rgba(219, 234, 254, 0.7);
+  --body-bg-grad2:        rgba(254, 205, 211, 0.6);
+
+  --navbar-bg:            rgba(255, 255, 255, 0.85);
+  --navbar-bg-scrolled:   rgba(255, 255, 255, 0.98);
+
+  --input-bg:             rgba(15, 23, 42, 0.03);
+  --input-bg-hover:       rgba(15, 23, 42, 0.06);
+  --input-bg-focus:       #ffffff;
+
+  --shadow-sm:     0 2px 8px rgba(15, 23, 42, 0.06);
+  --shadow-md:     0 4px 20px rgba(15, 23, 42, 0.08);
+  --shadow-lg:     0 12px 36px rgba(15, 23, 42, 0.12);
+  --shadow-accent: 0 0 25px rgba(233, 69, 96, 0.2);
+  --shadow-card:   0 8px 30px rgba(15, 23, 42, 0.06), inset 0 1px 0 rgba(255,255,255,0.9);
+}
+
+/* ============================================================
+   2. RESET & BASE STYLES
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  /* Gradient background across the full app */
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
+  background-image:
+    radial-gradient(ellipse at 20% 20%, var(--body-bg-grad1) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, var(--body-bg-grad2) 0%, transparent 50%);
+  background-attachment: fixed;
+  min-height: 100vh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color var(--transition-base), color var(--transition-base);
+}
+
+/* ============================================================
+   3. TYPOGRAPHY UTILITIES
+   ============================================================ */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-text-primary);
+}
+
+a {
+  color: var(--color-accent-light);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-accent);
+}
+
+/* ============================================================
+   4. FORM ELEMENTS — Shared across all auth pages
+   ============================================================ */
+
+/* Auth card container — glassmorphism effect */
+.auth-card {
+  background: var(--color-bg-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-10) var(--space-8);
+  box-shadow: var(--shadow-card);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decorative glow behind card */
+.auth-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 30% 30%,
+    rgba(233, 69, 96, 0.05) 0%,
+    transparent 60%);
+  pointer-events: none;
+}
+
+/* Form field wrapper */
+.form-group {
+  margin-bottom: var(--space-5);
+  position: relative;
+}
+
+/* Labels */
+.form-label {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-2);
+  letter-spacing: 0.02em;
+}
+
+/* Input fields */
+.form-control {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--color-text-primary);
+  background: var(--input-bg);
+  border: 1px solid var(--color-border-input);
+  border-radius: var(--radius-md);
+  outline: none;
+  transition:
+    border-color var(--transition-base),
+    background var(--transition-base),
+    box-shadow var(--transition-base);
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.form-control::placeholder {
+  color: var(--color-text-muted);
+}
+
+.form-control:hover {
+  background: var(--input-bg-hover);
+  border-color: rgba(233, 69, 96, 0.3);
+}
+
+.form-control:focus {
+  background: var(--input-bg-focus);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.15);
+}
+
+/* Input with left icon */
+.input-wrapper {
+  position: relative;
+}
+
+.input-wrapper .input-icon {
+  position: absolute;
+  left: var(--space-4);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-muted);
+  font-size: 1.1rem;
+  pointer-events: none;
+  transition: color var(--transition-fast);
+}
+
+.input-wrapper .form-control {
+  padding-left: 2.75rem;
+}
+
+.input-wrapper:focus-within .input-icon {
+  color: var(--color-accent);
+}
+
+/* Password toggle icon (right side) */
+.input-wrapper .input-icon-right {
+  position: absolute;
+  right: var(--space-4);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: color var(--transition-fast);
+  background: none;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.input-wrapper .input-icon-right:hover {
+  color: var(--color-text-secondary);
+}
+
+/* When there's a right icon, add extra right padding to input */
+.input-wrapper.has-right-icon .form-control {
+  padding-right: 3rem;
+}
+
+/* Validation error messages */
+.field-error {
+  font-size: var(--text-xs);
+  color: var(--color-error);
+  margin-top: var(--space-1);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  animation: slideDown 200ms ease;
+}
+
+.field-error .material-icons {
+  font-size: 0.875rem;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Invalid state styling */
+.form-control.is-invalid {
+  border-color: var(--color-error);
+  background: rgba(255, 77, 109, 0.04);
+}
+
+.form-control.is-invalid:focus {
+  box-shadow: 0 0 0 3px rgba(255, 77, 109, 0.12);
+}
+
+/* Valid state */
+.form-control.is-valid {
+  border-color: var(--color-success);
+}
+
+/* Select dropdown */
+select.form-control {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23a0a0b8' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--space-4) center;
+  padding-right: var(--space-10);
+}
+
+select.form-control option {
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+}
+
+/* ============================================================
+   5. BUTTON STYLES
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition:
+    transform var(--transition-fast),
+    box-shadow var(--transition-base),
+    opacity var(--transition-fast);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Primary button — coral-red gradient */
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-dark) 100%);
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(233, 69, 96, 0.35);
+  width: 100%;
+  padding: var(--space-4) var(--space-6);
+  font-size: var(--text-lg);
+  border-radius: var(--radius-md);
+  margin-top: var(--space-2);
+}
+
+.btn-primary:not(:disabled):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(233, 69, 96, 0.5);
+}
+
+.btn-primary:not(:disabled):active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(233, 69, 96, 0.3);
+}
+
+/* Ripple shimmer on primary button */
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+}
+
+.btn-primary:not(:disabled):hover::after {
+  transform: translateX(100%);
+}
+
+/* Secondary / ghost button */
+.btn-secondary {
+  background: transparent;
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+}
+
+.btn-secondary:hover {
+  background: var(--color-bg-glass-hover);
+  color: var(--color-text-primary);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+/* ============================================================
+   6. AUTH LAYOUT — Full page center layout
+   ============================================================ */
+.auth-page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  justify-items: center;
+  padding: var(--space-6) var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .auth-page {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8);
+    padding: var(--space-8) var(--space-12);
+  }
+}
+
+@media (min-width: 1200px) {
+  .auth-page {
+    padding: var(--space-8) var(--space-16);
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+}
+
+/* ============================================================
+   7. MISC UTILITIES
+   ============================================================ */
+.text-center { text-align: center; }
+.text-sm     { font-size: var(--text-sm); }
+.text-xs     { font-size: var(--text-xs); }
+.text-muted  { color: var(--color-text-secondary); }
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin: var(--space-6) 0;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
+}
+
+/* Loading spinner */
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Alert / toast messages */
+.alert {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  animation: slideDown 250ms ease;
+  margin-bottom: var(--space-4);
+}
+
+.alert-error {
+  background: rgba(255, 77, 109, 0.12);
+  border: 1px solid rgba(255, 77, 109, 0.3);
+  color: #ff8fa3;
+}
+
+.alert-success {
+  background: rgba(0, 214, 143, 0.12);
+  border: 1px solid rgba(0, 214, 143, 0.3);
+  color: #00d68f;
+}
+
+.alert .material-icons {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* Two-column form grid */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+@media (max-width: 500px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Auth branding panel — visible only on wider screens */
+.auth-brand {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .auth-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: var(--space-6);
+    padding: var(--space-8);
+  }
+}
+
+/* OTP code input for email verification */
+.otp-group {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: center;
+  margin: var(--space-6) 0;
+}
+
+.otp-input {
+  width: 52px;
+  height: 60px;
+  text-align: center;
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  font-family: var(--font-heading);
+  color: var(--color-text-primary);
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid var(--color-border-input);
+  border-radius: var(--radius-md);
+  outline: none;
+  transition:
+    border-color var(--transition-base),
+    box-shadow var(--transition-base),
+    transform var(--transition-fast);
+  caret-color: var(--color-accent);
+}
+
+.otp-input:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.2);
+  transform: scale(1.05);
+}
+
+.otp-input.filled {
+  border-color: var(--color-accent);
+  background: rgba(233, 69, 96, 0.08);
+  color: var(--color-accent-light);
+}
+
+/* Password strength indicator */
+.password-strength {
+  margin-top: var(--space-2);
+  display: flex;
+  gap: var(--space-1);
+}
+
+.strength-bar {
+  height: 3px;
+  flex: 1;
+  border-radius: var(--radius-full);
+  background: var(--color-border);
+  transition: background var(--transition-base);
+}
+
+.strength-bar.active-weak   { background: var(--color-error); }
+.strength-bar.active-medium { background: var(--color-warning); }
+.strength-bar.active-strong { background: var(--color-success); }
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}

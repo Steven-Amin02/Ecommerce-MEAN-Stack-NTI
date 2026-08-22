@@ -1,0 +1,168 @@
+<div class="admin-overview">
+  <!-- Loading State -->
+  <div class="loading-state" *ngIf="isLoading">
+    <div class="spinner" style="width:44px;height:44px;border-width:3px"></div>
+    <p>Loading Store Analytics...</p>
+  </div>
+
+  <div *ngIf="!isLoading" class="overview-content">
+    <!-- Welcome Header Banner -->
+    <div class="welcome-banner">
+      <div class="banner-text">
+        <h2>Dashboard Analytics & Overview</h2>
+        <p>Monitor real-time sales, manage catalog inventory, customer orders, and system health.</p>
+      </div>
+      <div class="banner-badge">
+        <span class="pulse-dot"></span>
+        <span>System Active & Connected</span>
+      </div>
+    </div>
+
+    <!-- KPI Stats Cards Grid -->
+    <div class="kpi-grid">
+      <!-- Total Revenue -->
+      <div class="kpi-card revenue-card">
+        <div class="kpi-icon">
+          <span class="material-icons">attach_money</span>
+        </div>
+        <div class="kpi-info">
+          <span class="kpi-label">Total Revenue</span>
+          <span class="kpi-value">${{ totalRevenue | number:'1.2-2' }}</span>
+          <span class="kpi-subtext">From {{ orders.length }} total orders</span>
+        </div>
+      </div>
+
+      <!-- Orders Stats -->
+      <div class="kpi-card orders-card" (click)="goToTab('orders')">
+        <div class="kpi-icon">
+          <span class="material-icons">shopping_bag</span>
+        </div>
+        <div class="kpi-info">
+          <span class="kpi-label">Total Orders</span>
+          <span class="kpi-value">{{ orders.length }}</span>
+          <span class="kpi-subtext alert-text" *ngIf="pendingOrdersCount > 0">
+            <span class="material-icons sub-icon">warning</span>
+            {{ pendingOrdersCount }} Pending Action
+          </span>
+          <span class="kpi-subtext" *ngIf="pendingOrdersCount === 0">All orders processed</span>
+        </div>
+      </div>
+
+      <!-- Products Stats -->
+      <div class="kpi-card products-card" (click)="goToTab('products')">
+        <div class="kpi-icon">
+          <span class="material-icons">inventory_2</span>
+        </div>
+        <div class="kpi-info">
+          <span class="kpi-label">Catalog Products</span>
+          <span class="kpi-value">{{ products.length }}</span>
+          <span class="kpi-subtext alert-text" *ngIf="lowStockProducts.length > 0">
+            <span class="material-icons sub-icon">error_outline</span>
+            {{ lowStockProducts.length }} Low Stock Alerts
+          </span>
+          <span class="kpi-subtext" *ngIf="lowStockProducts.length === 0">Inventory Healthy</span>
+        </div>
+      </div>
+
+      <!-- Total Users -->
+      <div class="kpi-card users-card" (click)="goToTab('users')">
+        <div class="kpi-icon">
+          <span class="material-icons">people</span>
+        </div>
+        <div class="kpi-info">
+          <span class="kpi-label">Registered Users</span>
+          <span class="kpi-value">{{ users.length }}</span>
+          <span class="kpi-subtext">Across {{ categoriesCount }} categories</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Action Bar -->
+    <div class="quick-actions-bar">
+      <span class="actions-title">Quick Actions:</span>
+      <button class="action-chip" (click)="goToTab('products')">
+        <span class="material-icons">add</span> Add Product
+      </button>
+      <button class="action-chip" (click)="goToTab('categories')">
+        <span class="material-icons">category</span> Manage Categories
+      </button>
+      <button class="action-chip" (click)="goToTab('users')">
+        <span class="material-icons">person_add</span> Create User
+      </button>
+      <button class="action-chip" (click)="goToTab('orders')">
+        <span class="material-icons">receipt</span> View All Orders
+      </button>
+    </div>
+
+    <!-- Split Grid: Recent Orders & Inventory Alerts -->
+    <div class="dashboard-split">
+      <!-- Recent Orders Table -->
+      <div class="split-card orders-section">
+        <div class="card-header">
+          <div class="header-title">
+            <span class="material-icons header-icon">schedule</span>
+            <h3>Recent Orders</h3>
+          </div>
+          <button class="btn-link" (click)="goToTab('orders')">View All →</button>
+        </div>
+
+        <div class="table-container">
+          <table class="overview-table" *ngIf="recentOrders.length > 0">
+            <thead>
+              <tr>
+                <th>Order</th>
+                <th>Customer</th>
+                <th>Total</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let o of recentOrders">
+                <td class="uuid-cell">#{{ o.uuid | slice:0:8 }}</td>
+                <td>{{ o.user?.FirstName }} {{ o.user?.LastName }}</td>
+                <td class="price-cell">${{ o.totalPrice | number:'1.2-2' }}</td>
+                <td>
+                  <span class="status-pill" [style.color]="getStatusColor(o.status)">
+                    {{ o.status | uppercase }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="empty-hint" *ngIf="recentOrders.length === 0">
+            <p>No recent orders found.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Inventory Low Stock Alerts -->
+      <div class="split-card inventory-section">
+        <div class="card-header">
+          <div class="header-title">
+            <span class="material-icons header-icon alert-icon">warning_amber</span>
+            <h3>Low Stock Inventory</h3>
+          </div>
+          <button class="btn-link" (click)="goToTab('products')">Manage →</button>
+        </div>
+
+        <div class="stock-list" *ngIf="lowStockProducts.length > 0">
+          <div class="stock-item" *ngFor="let p of lowStockProducts">
+            <img [src]="p.images?.[0]?.url || 'assets/placeholder.png'" [alt]="p.name" class="stock-img" />
+            <div class="stock-details">
+              <span class="stock-name">{{ p.name }}</span>
+              <span class="stock-price">${{ p.price | number:'1.2-2' }}</span>
+            </div>
+            <div class="stock-badge" [class.out-of-stock]="p.stock === 0">
+              {{ p.stock === 0 ? 'Out of Stock' : p.stock + ' left' }}
+            </div>
+          </div>
+        </div>
+
+        <div class="empty-hint" *ngIf="lowStockProducts.length === 0">
+          <span class="material-icons check-icon">check_circle</span>
+          <p>All product stock levels are healthy!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
